@@ -1,5 +1,5 @@
 const escapeStr = "\' \` \\ \/ \""
-const arr = [2, '4']
+const arr = [4, '2']
 const obj = {
     str: 'Serigne Saliou Mbacké Mbaye',
     num: 120498,
@@ -7,7 +7,7 @@ const obj = {
     undef: undefined,
 }
 const nested = {
-    arr: [2, undefined, "4"],
+    arr: [4, undefined, '2'],
     obj: {
         str1: 'Serigne Saliou Mbacké Mbaye',
         num1: 120498,
