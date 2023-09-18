@@ -1,3 +1,4 @@
+const is = {}
 is.num = (n) => typeof n === 'number'
 is.nan = (n) => Number.isNaN(n)
 is.str = (s) => typeof s === 'string'
@@ -10,6 +11,3 @@ is.obj = (o) => typeof(o) === 'object' ? toString.call(o).slice(8, -1) === 'Arra
 is.fun = (f) => typeof f === 'function'
 is.truthy = (t) => t == true
 is.falsy = (f) => f == false
-
-
-console.log(toString.call(o).slice(8, -1));
