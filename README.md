@@ -21,15 +21,15 @@
 +   [ ] block-chain
 
 ## QUEST-2
-+   [ ] repeat
-+   [ ] elementary
-+   [ ] index-of
-+   [ ] slicer
-+   [ ] keep-cut
-+   [ ] cut-corners
-+   [ ] reverser
-+   [ ] unbreakable
-+   [ ] chunky
++   [x] repeat
++   [x] elementary
++   [x] index-of
++   [x] slicer
++   [x] keep-cut
++   [x] cut-corners
++   [x] reverser
++   [x] unbreakable
++   [x] chunky
 +   [ ] nasa
 +   [ ] molecules-cells
 +   [ ] get
