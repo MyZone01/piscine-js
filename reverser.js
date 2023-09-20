@@ -15,4 +15,4 @@ function reverse(str){
     return result
 }
 
-console.log(reverse([1, , 3, 4]))
+// console.log(reverse([1, , 3, 4]))
