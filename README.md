@@ -30,14 +30,14 @@
 +   [x] reverser
 +   [x] unbreakable
 +   [x] chunky
-+   [ ] nasa
-+   [ ] molecules-cells
-+   [ ] get
-+   [ ] triangle
-+   [ ] pyramid
-+   [ ] flat
-+   [ ] find-expression
-+   [ ] sums
++   [x] nasa
++   [x] molecules-cells
++   [x] get
++   [x] triangle
++   [x] pyramid
++   [x] flat
++   [x] find-expression
++   [x] sums
 
 ## QUEST-3
 +   [ ] its-a-match
