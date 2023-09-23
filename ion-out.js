@@ -1,1 +1,1 @@
-const ionOut = (str) => str.match(/\w*(?=tion\b)/g);
+const ionOut = (str) => str.match(/\w*t(?=ion)/g)
