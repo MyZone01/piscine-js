@@ -1,0 +1,1 @@
+const vowelDots = (str) => str.replace(/(a|e|i|o|u)/g, "$1.")
