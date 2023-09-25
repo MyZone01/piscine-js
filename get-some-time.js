@@ -1,4 +1,4 @@
-const formatDate = (day, month, _year) => `${day.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${_year}`;
+const formatDate = (day, month, year) => `${day.toString().padStart(2, '0')}-${month.toString().padStart(2, '0')}-${year}`;
 
 /**
  * Calculates the date of the first day of a given week in a specific year.
@@ -17,6 +17,5 @@ const firstDayWeek = (week, year) => {
     if (weekDay !== 1) firstDay.setHours(-24 * weekDay)
     const day = firstDay.getDate();
     const month = firstDay.getMonth() + 1;
-    const _year = firstDay.getFullYear();
-    return formatDate(day, month, _year);
+    return formatDate(day, month, year);
 }
