@@ -1,6 +1,7 @@
 // Function that accepts a Date, and returns false if the Date is invalid.
 const isValid = (date) => {
     // Check if the date is a valid instance of the Date object
+    date = new Date(date);
     if (!(date instanceof Date)) {
         return false;
     }
@@ -16,8 +17,6 @@ const isValid = (date) => {
     if (date < minDate || date > maxDate) {
         return false;
     }
-
-    // TODO: Implement additional checks for specific date validations
 
     return true;
 }
@@ -56,3 +55,5 @@ const isPast = (date) => {
 
     return false; // Return false if the date is invalid
 }
+
+console.log(isValid(Date.now()));
