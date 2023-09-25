@@ -1,22 +1,18 @@
 // Function that accepts a Date, and returns false if the Date is invalid.
 const isValid = (date) => {
     // Check if the date is a valid instance of the Date object
+    if (typeof date === "string") return false
+
     date = new Date(date);
-    if (!(date instanceof Date)) {
-        return false;
-    }
+    if (!(date instanceof Date)) return false;
 
     // Check if the date is a valid date
-    if (isNaN(date.getTime())) {
-        return false;
-    }
+    if (isNaN(date.getTime())) return false;
 
     // Check if the date is in the valid range
     const minDate = new Date("0000-01-01");
     const maxDate = new Date("9999-12-31");
-    if (date < minDate || date > maxDate) {
-        return false;
-    }
+    if (date < minDate || date > maxDate) return false;
 
     return true;
 }
@@ -55,5 +51,3 @@ const isPast = (date) => {
 
     return false; // Return false if the date is invalid
 }
-
-console.log(isValid(Date.now()));
