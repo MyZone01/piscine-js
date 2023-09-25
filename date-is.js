@@ -1,15 +1,12 @@
 // Function that accepts a Date, and returns false if the Date is invalid.
 const isValid = (date) => {
-    // Check if the date is a valid instance of the Date object
     if (typeof date === "string") return false
 
     date = new Date(date);
     if (!(date instanceof Date)) return false;
 
-    // Check if the date is a valid date
     if (isNaN(date.getTime())) return false;
 
-    // Check if the date is in the valid range
     const minDate = new Date("0000-01-01");
     const maxDate = new Date("9999-12-31");
     if (date < minDate || date > maxDate) return false;
@@ -25,15 +22,12 @@ const isBefore = (date1, date2) => date1 < date2
 
 // Function that accepts a Date, and returns true if the Date is valid, and is after than the present date.
 const isFuture = (date) => {
-    // Check if the date is a valid Date object
     if (Object.prototype.toString.call(date) !== '[object Date]') {
         return false;
     }
 
-    // Get the current date
     const currentDate = new Date();
 
-    // Check if the given date is after the current date
     if (date > currentDate) {
         return true;
     }
