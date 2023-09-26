@@ -11,4 +11,4 @@ const fahrenheitToCelsius = (arr) => arr.map((fahrenheit) => Math.round((((parse
 const trimTemp = (arr) => arr.map((obj) => (obj.temperature = obj.temperature.replaceAll(' ', '')));
 
 // tempForecasts: accepts an array of objects, and returns an array of formatted strings
-const tempForecasts = (arr) => arr.map(({ city, temperature, state }) => `${Math.round((((parseInt(temperature.slice(0, -2) - 32) * 5) / 9) - 0.5)).toString()}°Celsius in ${city}, ${state.split(' ').map((word) => word[0].toUpperCase() + word.slice(1)).join(' ')}`);
+const tempForecasts = (arr) => arr.map(({ city, temperature, state }) => `${Math.round((((parseInt(temperature.replaceAll(' ', '').slice(0, -2) - 32) * 5) / 9) - 0.5)).toString()}°Celsius in ${city}, ${state.split(' ').map((word) => word[0].toUpperCase() + word.slice(1)).join(' ')}`);
