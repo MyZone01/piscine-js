@@ -16,4 +16,58 @@ the key capital contains at least 8 characters.
 the key name does not start with a vowel.
 the key tag has at least one vowel.
 the key region is not "South"*/
-const multiFilter = (arr) => arr.filter((obj) => obj.capital.length >= 8 && !filterStartVowel([obj.name]) && obj.tag.toLowerCase().split('').filter((vowel) => vowel === 'a' || vowel === 'e' || vowel === 'i' || vowel === 'o' || vowel === 'u' || vowel === 'A' || vowel === 'E' || vowel === 'I' || vowel === 'O' || vowel === 'U').length > 0 && obj.region !== 'South')
+const multiFilter = (arr) => arr.filter((obj) => obj.capital.length >= 8 && filterStartVowel([obj.name]).length === 0 && obj.tag.toLowerCase().split('').filter((vowel) => vowel === 'a' || vowel === 'e' || vowel === 'i' || vowel === 'o' || vowel === 'u' || vowel === 'A' || vowel === 'E' || vowel === 'I' || vowel === 'O' || vowel === 'U').length > 0 && obj.region !== 'South')
+
+console.log(multiFilter([
+    { tag: 'CA', name: 'California', capital: 'Sacramento', region: 'West' },
+    { tag: 'HI', name: 'Hawaii', capital: 'Honolulu', region: 'West' },
+    {
+        tag: 'MO',
+        name: 'Missouri',
+        capital: 'Jefferson City',
+        region: 'Midwest',
+    },
+    {
+        tag: 'PA',
+        name: 'Pennsylvania',
+        capital: 'Harrisburg',
+        region: 'Northeast',
+    },
+    {
+        tag: 'RI',
+        name: 'Rhode Island',
+        capital: 'Providence',
+        region: 'Northeast',
+    },
+]))
+
+// -   {
+//     -     capital: 'Sacramento',
+//     -     name: 'California',
+//     -     region: 'West',
+//     -     tag: 'CA'
+//     -   },
+//     -   {
+//     -     capital: 'Honolulu',
+//     -     name: 'Hawaii',
+//     -     region: 'West',
+//     -     tag: 'HI'
+//     -   },
+//     -   {
+//     -     capital: 'Jefferson City',
+//     -     name: 'Missouri',
+//     -     region: 'Midwest',
+//     -     tag: 'MO'
+//     -   },
+//     -   {
+//     -     capital: 'Harrisburg',
+//     -     name: 'Pennsylvania',
+//     -     region: 'Northeast',
+//     -     tag: 'PA'
+//     -   },
+//     -   {
+//     -     capital: 'Providence',
+//     -     name: 'Rhode Island',
+//     -     region: 'Northeast',
+//     -     tag: 'RI'
+//     -   }
