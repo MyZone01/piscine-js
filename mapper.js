@@ -2,7 +2,7 @@
 const map = (arr, func) => {
     const mappedArr = [];
     for (let i = 0; i < arr.length; i++) {
-        mappedArr.push(func(arr[i]));
+        mappedArr.push(func(arr[i] || 0));
     }
     return mappedArr;
 }
