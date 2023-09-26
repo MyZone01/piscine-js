@@ -8,7 +8,7 @@ const upperCasingStates = (arr) => arr.map((str) => str.split(' ').map((word) =>
 const fahrenheitToCelsius = (arr) => arr.map((fahrenheit) => Math.round((((parseInt(fahrenheit.slice(0, -2) - 32) * 5) / 9) - 0.5)).toString() + '°C');
 
 // trimTemp: accepts an array of objects, and returns a new array of objects with the same structure.The temperature strings must have their spaces removed in the new array.
-const trimTemp = (arr) => arr.map((obj) => (obj.temperature = obj.temperature.replaceAll(' ', '')));
+const trimTemp = (arr) => { arr.map((obj) => { obj.temperature = obj.temperature.replaceAll(' ', '') }); return arr };
 
 // tempForecasts: accepts an array of objects, and returns an array of formatted strings
 const tempForecasts = (arr) => arr.map(({ city, temperature, state }) => `${Math.round((((parseInt(temperature.replaceAll(' ', '').slice(0, -2) - 32) * 5) / 9) - 0.5)).toString()}°Celsius in ${city}, ${state.split(' ').map((word) => word[0].toUpperCase() + word.slice(1)).join(' ')}`);
