@@ -23,15 +23,3 @@ const reject = (arr, func) => {
 
 // partition: that works like the partition function from lodash.
 const partition = (arr, func) => [filter(arr, func), reject(arr, func)];
-
-
-const check1 = (el) => el % 2 === 0
-const check2 = (el, i) => el % 3 === 0 && i % 2 === 0
-const check3 = (el) => Array.isArray(el)
-const check4 = (el, i, arr) =>
-    typeof el !== 'number' && i % 2 !== 0 && arr.includes(true)
-const check5 = (el, i) =>
-    (typeof el === 'number' || typeof el === 'boolean') && i > 5
-const check6 = (el) => el.region === 'South' || el.region === 'West'
-
-console.log(filter(ctx.onlyNumbers, check2), [15, 33, 450, 66])
