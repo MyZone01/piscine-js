@@ -1,6 +1,6 @@
 export function compose() {
     document.addEventListener('keydown', event => {
-        let lowercase = 'abcaadefghijklmnopqrstuvwxyz'
+        let lowercase = 'abcdefghijklmnopqrstuvwxyz'
         if (lowercase.includes(event.key)) {
             const newDiv = document.createElement('div')
             newDiv.setAttribute('class', 'note')
