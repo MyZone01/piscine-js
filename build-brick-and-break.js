@@ -1,8 +1,10 @@
+//Create a variable to use for a unique id and one to track the position
 let value = 1
 let pos = 0
 
+
 export const build = (x) => {
-    const buildBrick = () => {
+    function buildBrick() {
         const newDiv = document.createElement("div");
         newDiv.setAttribute('id', 'brick-' + value.toString())
         value++
@@ -17,7 +19,9 @@ export const build = (x) => {
     const start = setInterval(buildBrick, 100)
 
     setTimeout(stop_interval, x * 100);
-    const stop_interval = () => clearInterval(start);
+    function stop_interval() {
+        clearInterval(start);
+    }
 }
 
 
@@ -25,13 +29,15 @@ export const build = (x) => {
 export const destroy = () => {
     const lastBrick = document.querySelector('div:last-child')
     lastBrick.remove();
+    
 }
 
 export const repair = (...htmlIds) => {
     let ids = Array.from(htmlIds)
 
-    const repairer = (ids) => {
+    function repairer(ids) {
         const curr = document.getElementById(ids)
+
         if (curr.hasAttribute('data-foundation')) {
             curr.setAttribute('data-repaired', 'in progress')
         } else {
@@ -43,4 +49,3 @@ export const repair = (...htmlIds) => {
         repairer(element)
     })
 }
-Ï
