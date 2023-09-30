@@ -2,8 +2,10 @@ import { styles } from "./pimp-my-style.data.js";
 let index = 0
 export function pimp() {
     var classVal = document.getElementsByClassName('button')[0]
-
     if (index == styles.length - 1) {
+        let addValue = styles[index]
+        classVal.classList.add(addValue)
+        classVal.classList.toggle('unpimp')
         index = 0
     } else if (classVal.classList.contains('unpimp')) {
         if (classVal.classList.length == 3) {
