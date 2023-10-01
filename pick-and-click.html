@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Fifty shades of cold</title>
+    <title>Pick & click</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link id="fav" rel="shortcut icon" type="image/x-icon" href="data:image/x-icon;,">
     <style>
@@ -29,31 +29,57 @@
             justify-content: center;
             align-content: center;
             width: 100vw;
+            height: 100vh;
             padding: 5rem;
-            font-size: 12px;
+            cursor: crosshair;
         }
 
-        div {
+        svg {
+            filter: invert(100%);
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+        }
+
+        svg line {
+            stroke-width: 0.6px;
+            stroke: grey;
+        }
+
+        .text {
+            position: fixed;
+            filter: invert(100%);
+            font-size: 50px;
             cursor: pointer;
-            width: 150px;
-            height: 150px;
-            margin: 20px;
-            padding: 5px 8px;
+            white-space: pre-wrap;
+        }
+
+        .hsl {
+            filter: invert(100%);
+            font-size: 17px;
+        }
+
+        .hue {
+            top: 100px;
+            right: 100px;
+            text-align: right;
+        }
+
+        .luminosity {
+            bottom: 100px;
+            left: 100px;
         }
     </style>
 </head>
 
 <body>
     <script type="module">
-        import { generateClasses, generateColdShades, choseShade } from './fifty-shades-of-cold.js'
 
-        generateClasses()
-        generateColdShades()
+        import { pick } from './pick-and-click.js'
 
-        const divs = [...document.querySelectorAll('div')]
-        divs.map((d) => {
-            d.addEventListener('click', () => choseShade(d.textContent))
-        })
+        pick()
 
     </script>
 </body>

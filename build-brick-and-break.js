@@ -1,51 +1,36 @@
-//Create a variable to use for a unique id and one to track the position
-let value = 1
-let pos = 0
+let brickCount = 0;
 
-
-export const build = (x) => {
-    function buildBrick() {
-        const newDiv = document.createElement("div");
-        newDiv.setAttribute('id', 'brick-' + value.toString())
-        value++
-
-        if (pos === 1) newDiv.setAttribute('data-foundation', 'true')
-        pos++
-        if (pos === 3) pos = 0
-
-        const currentDiv = document.getElementById('brick-' + (value - 1).toString());
-        document.body.insertBefore(newDiv, currentDiv);
-    }
-    const start = setInterval(buildBrick, 100)
-
-    setTimeout(stop_interval, x * 100);
-    function stop_interval() {
-        clearInterval(start);
+export function build(brickQuantity) {
+    for (let i = 0; i < brickQuantity; i++) {
+        setTimeout(() => {
+            const brick = document.createElement('div');
+            brickCount++;
+            brick.id = `brick-${brickCount}`;
+            brick.textContent = brickCount;
+            const prevBrick = document.getElementById('brick-' + (brickCount - 1).toString());
+            document.body.insertBefore(brick, prevBrick);
+            if (brickCount > 18 && brickCount <= 36) {
+                brick.dataset.foundation = 'true';
+            }
+        }, i * 100);
     }
 }
 
+export function repair(...ids) {
+    ids.forEach(id => {
+        const brick = document.getElementById(id);
+        if (brick) {
+            if (brick.dataset.foundation === 'true') {
+                brick.dataset.repaired = 'in progress';
+            } else {
+                brick.dataset.repaired = 'true';
+            }
+        }
+    });
+}
 
-
-export const destroy = () => {
+export function destroy() {
     const lastBrick = document.querySelector('div:last-child')
     lastBrick.remove();
-    
-}
-
-export const repair = (...htmlIds) => {
-    let ids = Array.from(htmlIds)
-
-    function repairer(ids) {
-        const curr = document.getElementById(ids)
-
-        if (curr.hasAttribute('data-foundation')) {
-            curr.setAttribute('data-repaired', 'in progress')
-        } else {
-            curr.setAttribute('data-repaired', 'true')
-        }
-    }
-
-    ids.forEach(element => {
-        repairer(element)
-    })
+    brickCount--;
 }

@@ -1,44 +1,39 @@
 import { colors } from "./fifty-shades-of-cold.data.js"
 
 export function generateClasses() {
-    const newStyle = document.createElement('style');
-    let styling = '';
+    const head = document.querySelector('head');
+    const style = document.createElement('style');
 
-    for (let i = 0; i < colors.length; i++) {
-        styling += '.' + colors[i] + ` {
-            background: ` + colors[i] + `;
-        }`
+    for (const color of colors) {
+        style.appendChild(document.createTextNode(`.${color} { background: ${color}; }`));
     }
 
-    const stylingStr = document.createTextNode(styling)
-    newStyle.appendChild(stylingStr)
-
-    document.head.appendChild(newStyle)
+    head.appendChild(style);
 }
 
 export function generateColdShades() {
-    const colorCheck = ['aqua', 'blue','turquoise', 'green', 'cyan', 'navy', 'purple']
+    const body = document.querySelector('body');
 
-    colors.map(elem => {
-        for (let i = 0; i < colorCheck.length; i++) {
-            if (elem.includes(colorCheck[i])) {
-                const newDiv = document.createElement('div')
-                const insideText = document.createTextNode(elem)
-
-                newDiv.appendChild(insideText)
-                newDiv.setAttribute('class', elem)
-
-                const currentDiv = document.getElementById("div1");
-                document.body.insertBefore(newDiv, currentDiv);
-            }
+    for (const color of colors) {
+        if (color.includes('aqua') || color.includes('blue') || color.includes('turquoise') ||
+            color.includes('green') || color.includes('cyan') || color.includes('navy') ||
+            color.includes('purple')) {
+            const div = document.createElement('div');
+            div.classList.add(color);
+            div.classList.add('color-box');
+            div.textContent = color;
+            body.appendChild(div);
         }
-    })
+    }
 }
 
-export function choseShade(shade) {  
-    let allDivs = document.querySelectorAll('div')
+export function choseShade(shade) {
+    const colorBoxes = document.querySelectorAll('.color-box');
 
-    for (let i = 0; i < allDivs.length; i++) {
-      allDivs[i].className = shade
+    for (const box of colorBoxes) {
+        box.className = '';
+        box.classList.add(shade);
+        box.classList.add('color-box');
+        box.textContent = shade;
     }
 }

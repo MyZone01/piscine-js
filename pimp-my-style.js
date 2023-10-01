@@ -1,24 +1,11 @@
-import { styles } from "./pimp-my-style.data.js";
-let index = 0
-export function pimp() {
-    var classVal = document.getElementsByClassName('button')[0]
-    if (index == styles.length - 1) {
-        let addValue = styles[index]
-        classVal.classList.add(addValue)
-        classVal.classList.toggle('unpimp')
-        index = 0
-    } else if (classVal.classList.contains('unpimp')) {
-        if (classVal.classList.length == 3) {
-            const lastClass = Array.prototype.slice.call(classVal.classList)
-            classVal.classList.remove(lastClass[classVal.classList.length - 2])
-            classVal.classList.remove('unpimp')
-        } else {
-            const lastClass = Array.prototype.slice.call(classVal.classList)
-            classVal.classList.remove(lastClass[classVal.classList.length - 2])
-        }
-    } else {
-        let addValue = styles[index]
-        classVal.classList.add(addValue)
-        index++
-    }
+import { styles } from './pimp-my-style.data.js';
+
+let currentIndex = 0;
+
+export const pimp = () => {
+    const button = document.querySelector('.button');
+    const styleClass = styles[currentIndex];
+    button.classList.add(styleClass);
+    button.classList.toggle('unpimp');
+    currentIndex = (currentIndex + 1) % styles.length;
 }

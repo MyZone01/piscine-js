@@ -1,50 +1,23 @@
 export function compose() {
     document.addEventListener('keydown', event => {
-        let lowercase = 'abcdefghijklmnopqrstuvwxyz'
-        if (lowercase.includes(event.key)) {
-            const newDiv = document.createElement('div')
-            newDiv.setAttribute('class', 'note')
-            newDiv.setAttribute('style', 'background-color: '+ colors[lowercase.indexOf(event.key)] + ';')
-            const newContent = document.createTextNode(event.key);
-            newDiv.appendChild(newContent); 
-            document.body.append(newDiv);
-        } else if (event.key == 'Backspace') {
-            const lastBrick = document.querySelector('div:last-child')
-            lastBrick.remove();
-        } else if (event.key == 'Escape') {
+        const key = event.key;
+        if (key === 'Backspace') {
+            document.querySelector('div:last-child').remove();
+        } else if (key === 'Escape') {
             let createdDivs = document.querySelectorAll('div')
-            for (let i = 0; i < createdDivs.length; i++) {
+            for (let i = 0; i < createdDivs.length; i++)
                 createdDivs[i].remove()
-            }
+        } else if (/^[a-z]$/.test(key)) {
+            const note = document.createElement('div');
+            note.classList.add('note');
+            note.style.backgroundColor = generateBackgroundColor(key);
+            note.textContent = key;
+            document.body.appendChild(note);
         }
-    })
+    });
 }
 
-export const colors = [
-    'indianred',
-    'lightcoral',
-    'salmon',
-    'darksalmon',
-    'lightsalmon',
-    'crimson',
-    'red',
-    'firebrick',
-    'darkred',
-    'pink',
-    'lightpink',
-    'hotpink',
-    'deeppink',
-    'mediumvioletred',
-    'palevioletred',
-    'orange',
-    'coral',
-    'tomato',
-    'orangered',
-    'darkorange',
-    'yellow',
-    'gold',
-    'lightyellow',
-    'lemonchiffon',
-    'lightgoldenrodyellow',
-    'papayawhip'
-]
+function generateBackgroundColor(key) {
+    const colorValue = key.charCodeAt(0) * 10;
+    return `hsl(${colorValue % 360}, 50%, 50%)`;
+}

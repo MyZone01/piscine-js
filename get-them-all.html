@@ -34,6 +34,7 @@
         }
 
         button {
+            cursor: pointer;
             outline: none;
             border: none;
         }
@@ -139,6 +140,7 @@
 
         buttons.forEach(({ name, action }, i) => {
             const btn = document.createElement('button')
+            console.log(btn);
             btn.id = `btn${name}`
             btn.textContent = `Get ${name}${i === 0 ? 's' : ''}`
 
@@ -146,14 +148,15 @@
                 btn.className = 'disabled'
             }
 
-            btn.addEventListener('click', () => {
-                const [targetted, others] = action()
+            btn.addEventListener('click', (evt) => {
+                console.log(evt);
+                const [target, others] = action()
 
                 if (name === 'Bonanno') {
-                    targetted.textContent = targetted.id.replace('P', ' P')
-                    targetted.classList.add('found')
+                    target.textContent = target.id.replace('P', ' P')
+                    target.classList.add('found')
                 } else {
-                    targetted.forEach((t) => {
+                    target.forEach((t) => {
                         t.textContent = name
                     })
                 }
