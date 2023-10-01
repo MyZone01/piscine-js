@@ -1,68 +1,54 @@
-
 export function createCircle() {
-    document.addEventListener('mousedown', event => {
-        const newCirc = document.createElement('div')
-        newCirc.setAttribute('class', 'circle')
-        newCirc.setAttribute('id', 'Tester')
-        let x = event.clientX - 25
-        let y = event.clientY - 25
-        newCirc.setAttribute('style', 'left: ' + x.toString() + 'px; top: ' + y.toString() + 'px; background: white;')
+    document.addEventListener('click', event => {
+        const newCirc = document.createElement('div');
+        newCirc.classList.add('circle');
+        newCirc.style.background = 'white';
+        let x = event.clientX - 25;
+        let y = event.clientY - 25;
+        newCirc.style.left = `${x}px`;
+        newCirc.style.top = `${y}px`;
         document.body.appendChild(newCirc);
-    })
+    });
 }
 
 export function moveCircle() {
     document.addEventListener('mousemove', event => {
-        const lastCircle = document.querySelector('div:last-child')
-        lastCircle.style.left = `${event.clientX - 25}px`
-        lastCircle.style.top = `${event.clientY - 25}px`
-        document.body.append(lastCircle)
-        let midBox = document.querySelector('div.box')
-        let dims = midBox.getBoundingClientRect()
+        const circles = document.querySelectorAll('.circle');
+        const midBox = document.querySelector('.box');
+        const dims = midBox.getBoundingClientRect();
 
-        if (lastCircle.getAttribute('class') !== 'box') {
-            if ((+lastCircle.style.left.replace('px', '') > (dims.x)) && (+lastCircle.style.left.replace('px', '') < (dims.right - 50)) && (+lastCircle.style.top.replace('px', '') > (dims.top)) && (+lastCircle.style.top.replace('px', '') < (dims.bottom - 50))) {
-                lastCircle.style.background = 'var(--purple)'
+        circles.forEach(circle => {
+            const left = parseInt(circle.style.left);
+            const top = parseInt(circle.style.top);
+
+            if (
+                left >= dims.left + 1 &&
+                left + 50 <= dims.right - 1 &&
+                top >= dims.top + 1 &&
+                top + 50 <= dims.bottom - 1
+            ) {
+                circle.style.background = 'var(--purple)';
+            } else {
+                circle.style.background = 'white';
             }
-        }
 
-        if (event.clientX - 25 < (dims.x) && lastCircle.style.background === 'var(--purple)') {
-            console.log(lastCircle.style.left)
-            lastCircle.style.left = (dims.x).toString() + 'px'
-
-            if (event.clientY - 25 < (dims.top)) {
-                lastCircle.style.top = (dims.y).toString() + 'px'
+            if (left < dims.left + 1) {
+                circle.style.left = `${dims.left + 1}px`;
+            } else if (left + 50 > dims.right - 1) {
+                circle.style.left = `${dims.right - 51}px`;
             }
-            console.log(event.clientY - 25)
-            console.log(dims.bottom)
 
-            if (event.clientY - 25 > (dims.bottom - 50)) {
-                lastCircle.style.top = (dims.bottom - 50).toString() + 'px'
+            if (top < dims.top + 1) {
+                circle.style.top = `${dims.top + 1}px`;
+            } else if (top + 50 > dims.bottom - 1) {
+                circle.style.top = `${dims.bottom - 51}px`;
             }
-        } else if (event.clientX - 25 > (dims.right - 50) && lastCircle.style.background === 'var(--purple)') {
-            lastCircle.style.left = (dims.right - 50).toString() + 'px'
-
-            if (event.clientY - 25 < (dims.top)) {
-                lastCircle.style.top = (dims.y).toString() + 'px'
-            }
-            console.log(event.clientY - 25)
-            console.log(dims.bottom)
-
-            if (event.clientY - 25 > (dims.bottom - 50)) {
-                lastCircle.style.top = (dims.bottom - 50).toString() + 'px'
-            }
-        } else if ((event.clientY - 25 > (dims.bottom - 50)) && lastCircle.style.background === 'var(--purple)') {
-            lastCircle.style.top = (dims.bottom - 50).toString() + 'px'
-
-        } else if ((event.clientY - 25 < (dims.top)) && lastCircle.style.background === 'var(--purple)') {
-            lastCircle.style.top = (dims.top).toString() + 'px'
-
-        }
-    })
+        });
+    });
 }
 
 export function setBox() {
-    const centerBox = document.createElement('div')
-    centerBox.setAttribute('class', 'box')
-    document.body.append(centerBox)
+    const centerBox = document.createElement('div');
+    centerBox.classList.add('box');
+    document.body.appendChild(centerBox);
 }
