@@ -23,12 +23,4 @@ const mapKeys = (obj, callback) => {
 }
 
 // Function similar to reduce for object keys
-const reduceKeys = (obj, callback, initialValue) => {
-    let keys = Object.keys(obj);
-    let accumulator = initialValue === undefined ? keys[0] : initialValue;
-    keys = keys.slice(1);
-    for (const key of keys) {
-        accumulator = callback(accumulator, key);
-    }
-    return accumulator;
-}
+const reduceKeys = (obj, callback, acc) => (acc == undefined) ? Object.keys(obj).reduce(callback) : [acc].concat(Object.keys(obj)).reduce(callback)
