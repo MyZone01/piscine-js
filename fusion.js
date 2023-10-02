@@ -22,7 +22,7 @@
  * @param {object} obj2 - The second object to be merged.
  * @return {object} The merged object.
  */
-function fusion(obj1, obj2) {
+const fusion = (obj1, obj2) => {
     const mergedObj = { ...obj1 };
 
     for (const key in obj2) {
