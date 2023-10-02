@@ -5,14 +5,14 @@
  * @return {Object|Array} - The deep copied object or array.
  */
 const deepCopy = (obj) => {
-    const keys = Object.keys(obj)
     if (Array.isArray(obj))
         return obj.map((item) => deepCopy(item));
-    else if (typeof obj === 'object' && obj !== null)
+    else if (typeof obj === 'object' && obj !== null) {
+        const keys = Object.keys(obj)
         if (keys.length === 0)
             return obj
         else
             return keys.reduce((acc, key) => { if (obj.hasOwnProperty(key)) acc[key] = deepCopy(obj[key]); return acc; }, {});
-    else
+    } else
         return obj;
 };
