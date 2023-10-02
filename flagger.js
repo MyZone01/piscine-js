@@ -4,10 +4,11 @@ function flags(inputObject) {
         description: '-h, --help: Display help'
     };
 
-    inputObject.help = (inputObject.help) ? inputObject.help : Object.keys(inputObject);
+    inputObject.allKeys = Object.keys(inputObject)
+    inputObject.help = (inputObject.help) ? inputObject.help : inputObject.allKeys;
 
     result.alias = {
-        ...result.alias, ...inputObject.help.reduce((acc, flag) => {
+        ...result.alias, ...inputObject.allKeys.reduce((acc, flag) => {
             const short = flag.charAt(0).toLowerCase();
             const long = flag.toLowerCase();
             acc[short] = long;
@@ -15,9 +16,9 @@ function flags(inputObject) {
         }, {})
     };
 
-    result.description = Object.entries(inputObject)
-        .filter(([key]) => inputObject.help.includes(key))
-        .map(([key, value]) => `-${key.charAt(0).toLowerCase()}, --${key.toLowerCase()}: ${value}`);
+    result.description = inputObject.help
+        .map((key) => `-${key.charAt(0).toLowerCase()}, --${key.toLowerCase()}: ${inputObject[key]}`)
+        .join('\n');
 
     return result;
 }
