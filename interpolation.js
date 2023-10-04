@@ -9,25 +9,21 @@
  * @param {number} options.duration - The duration of the interpolation in milliseconds.
  */
 const interpolation = ({ step, start, end, callback, duration }) => {
-    if (step <= 1) {
-        callback([0, start]);
-        return;
+    const totalPoints = step;
+    const increment = (end - start) / totalPoints;
+    const timeInterval = duration / totalPoints;
+    let x = start;
+    let currentStep = 1;
+
+    function interpolatePoints() {
+        if (currentStep <= totalPoints) {
+            const y = callback([parseFloat((x).toFixed(1)), currentStep * timeInterval]);
+            x += increment;
+            currentStep++;
+
+            setTimeout(interpolatePoints, timeInterval);
+        }
     }
 
-    const interval = duration / step;
-    const distanceDelta = (end - start) / (step - 1);
-
-    let pointIndex = 0;
-    const intervalId = setInterval(() => {
-        if (pointIndex >= step) {
-            clearInterval(intervalId);
-            return;
-        }
-
-        const distance = start + pointIndex * distanceDelta;
-        const point = [distance, start + pointIndex * distanceDelta];
-
-        callback(point);
-        pointIndex++;
-    }, interval);
+    interpolatePoints();
 }
