@@ -27,17 +27,18 @@ const throttle = (func, wait) => {
  * @param {boolean} options.leading - Whether to execute the function on the leading edge of the wait timeout. Default is true.
  * @param {boolean} options.trailing - Whether to execute the function on the trailing edge of the wait timeout. Default is true.
  */
-const opThrottle = (func, wait, { leading = false, trailing = true } = {}) => {
+const opThrottle = (func, wait, { leading = false, trailing = true }) => {
     let lastCalledTime = 0;
     let timeoutId = null;
 
     return (...args) => {
         const now = Date.now();
 
-        if (!lastCalledTime && leading === false) {
-            lastCalledTime = now;
-        }
-        if (now - lastCalledTime > wait) {
+        if (!lastCalledTime && leading === false) lastCalledTime = now;
+
+        const remaining = wait - (now - lastCalledTime);
+
+        if (remaining <= 0 || remaining > wait) {
             if (timeoutId) {
                 clearTimeout(timeoutId);
                 timeoutId = null;
@@ -47,9 +48,10 @@ const opThrottle = (func, wait, { leading = false, trailing = true } = {}) => {
         } else if (!timeoutId && trailing !== false) {
             timeoutId = setTimeout(() => {
                 func.apply(this, args);
-                lastCalledTime = now;
+                lastCalledTime = options.leading === false ? 0 : Date.now();;
                 timeoutId = null
-            }, wait);
+            }, remaining);
         }
     };
 }
+
