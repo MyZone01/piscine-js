@@ -26,31 +26,30 @@ const throttle = (func, wait) => {
  * @param {boolean} options.leading - Whether to execute the function on the leading edge of the wait timeout. Default is true.
  * @param {boolean} options.trailing - Whether to execute the function on the trailing edge of the wait timeout. Default is true.
  */
-const opThrottle = (func, wait, { leading = false, trailing = true }) => {
-    let lastCalledTime = 0;
-    let timeoutId = null;
+function opThrottle(func, wait, option = {}) {
+    let lastCalledTime = null;
+    let timeoutID = null;
 
-    return (...args) => {
-        const now = Date.now();
+    function setTimer() {
+        timeoutID = setTimeout(timerFunc, wait);
+    }
 
-        if (!lastCalledTime && leading === false) lastCalledTime = now;
-
-        const remaining = wait - (now - lastCalledTime);
-
-        if (remaining <= 0 || remaining > wait) {
-            if (timeoutId) {
-                clearTimeout(timeoutId);
-                timeoutId = null;
-            }
-            func.apply(this, args);
-            lastCalledTime = now;
-        } else if (!timeoutId && trailing !== false) {
-            timeoutId = setTimeout(() => {
-                lastCalledTime = leading === false ? 0 : Date.now();;
-                timeoutId = null
-                func.apply(this, args);
-            }, remaining);
+    function timerFunc() {
+        timeoutID = null;
+        if (lastCalledTime && option.trailing) {
+            func.apply(lastCalledTime.context, lastCalledTime.args)
+            setTimer();
         }
-    };
+        lastCalledTime = null;
+    }
+
+    return function throttled(...args) {
+        if (timeoutID === null) {
+            option.leading ? func.apply(this, args) : lastCalledTime = { args, context: this };
+            setTimer();
+        } else {
+            lastCalledTime = { args, context: this };
+        }
+    }
 }
 
