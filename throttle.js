@@ -11,16 +11,9 @@ const throttle = (func, wait) => {
 
     return (...args) => {
         const now = Date.now();
-
         if (now > lastCalledTime + wait) {
             func.apply(this, args);
             lastCalledTime = now;
-        } else {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => {
-                func.apply(this, args);
-                lastCalledTime = now;
-            }, wait - (now - lastCalledTime));
         }
     };
 }
@@ -34,32 +27,29 @@ const throttle = (func, wait) => {
  * @param {boolean} options.leading - Whether to execute the function on the leading edge of the wait timeout. Default is true.
  * @param {boolean} options.trailing - Whether to execute the function on the trailing edge of the wait timeout. Default is true.
  */
-const opThrottle = (func, wait, options) => {
+const opThrottle = (func, wait, { leading = false, trailing = true } = {}) => {
     let lastCalledTime = 0;
-    let timeoutId;
-    let leadingExecuted = false;
+    let timeoutId = null;
 
     return (...args) => {
         const now = Date.now();
 
-        if (!leadingExecuted && options?.leading === false) {
-            // Skip leading execution
-            leadingExecuted = true;
-        } else {
-            if (now - lastCalledTime >= wait) {
+        if (!lastCalledTime && leading === false) {
+            lastCalledTime = now;
+        }
+        if (now - lastCalledTime >= wait) {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+                timeoutId = null;
+            }
+            func.apply(this, args);
+            lastCalledTime = now;
+        } else if (!timeoutId && trailing !== false) {
+            timeoutId = setTimeout(() => {
                 func.apply(this, args);
                 lastCalledTime = now;
-            } else {
-                clearTimeout(timeoutId);
-                timeoutId = setTimeout(() => {
-                    func.apply(this, args);
-                    lastCalledTime = now;
-                }, wait - (now - lastCalledTime));
-            }
-        }
-
-        if (options?.trailing === false) {
-            clearTimeout(timeoutId);
+                timeoutId = null
+            }, wait);
         }
     };
 }
