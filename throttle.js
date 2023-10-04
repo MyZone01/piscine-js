@@ -37,7 +37,7 @@ const opThrottle = (func, wait, { leading = false, trailing = true } = {}) => {
         if (!lastCalledTime && leading === false) {
             lastCalledTime = now;
         }
-        if (now - lastCalledTime >= wait) {
+        if (now - lastCalledTime > wait) {
             if (timeoutId) {
                 clearTimeout(timeoutId);
                 timeoutId = null;
