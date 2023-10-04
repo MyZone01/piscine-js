@@ -4,15 +4,4 @@
  * @param {Object|Array} obj - The object or array to be deep copied.
  * @return {Object|Array} - The deep copied object or array.
  */
-const deepCopy = (obj) => {
-    if (Array.isArray(obj))
-        return obj.map((item) => deepCopy(item));
-    else if (typeof obj === 'object' && obj !== null) {
-        const keys = Object.keys(obj)
-        if (keys.length === 0)
-            return obj
-        else
-            return keys.reduce((acc, key) => { acc[key] = deepCopy(obj[key]); return acc; }, {});
-    } else
-        return obj;
-};
+const deepCopy = (obj) => Array.isArray(obj) ? obj.map((item) => deepCopy(item)) : typeof obj === "object" && obj !== null ? Object.keys(obj).reduce((acc, key) => { acc[key] = deepCopy(obj[key]); return acc; }, {}) : obj;
