@@ -9,21 +9,33 @@
  * @param {number} options.duration - The duration of the interpolation in milliseconds.
  */
 const interpolation = ({ step, start, end, callback, duration }) => {
-    const totalPoints = step;
-    const increment = (end - start) / totalPoints;
-    const timeInterval = duration / totalPoints;
+    const increment = (end - start) / step;
+    const timeInterval = duration / step;
     let x = start;
     let currentStep = 1;
 
-    function interpolatePoints() {
-        if (currentStep <= totalPoints) {
-            const y = callback([parseFloat((x).toFixed(1)), currentStep * timeInterval]);
+    const interpolatePoints = () => {
+        if (currentStep <= step) {
+            callback([parseFloat((x).toFixed(1)), currentStep * timeInterval]);
             x += increment;
             currentStep++;
-
             setTimeout(interpolatePoints, timeInterval);
         }
     }
 
     interpolatePoints();
 }
+
+// Example usage:
+const interpolationConfig = {
+    step: 5,       // Number of steps
+    start: 0,      // Start position
+    end: 4,       // End position (not included)
+    callback: (point) => {
+        console.log(point); // Replace this with your desired callback logic
+    },
+    duration: 50, // Total duration in milliseconds
+};
+
+interpolation(interpolationConfig);
+
