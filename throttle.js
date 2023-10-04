@@ -12,7 +12,7 @@ const throttle = (func, wait) => {
     return (...args) => {
         const now = Date.now();
 
-        if (now - lastCalledTime >= wait) {
+        if (now > lastCalledTime + wait) {
             func.apply(this, args);
             lastCalledTime = now;
         } else {

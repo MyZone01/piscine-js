@@ -8,4 +8,4 @@ const totalCalories = (cart) => Number(reduceEntries(cart, ((accumulator, [key, 
 
 const lowCarbs = (cart) => filterEntries(cart, ([key, value]) => (nutritionDB[key].carbs * value / 100) < 50)
 
-const cartTotal = (cart) => mapEntries(cart, ([key, value]) => [key, Object.entries(nutritionDB[key]).reduce((acc, [k, val]) => { acc[k] = parseFloat(((val * value) / 100).toFixed(3)); return acc; }, {})])
+const cartTotal = (cart) => mapEntries(cart, ([key, value]) => [key, reduceEntries(nutritionDB[key], (acc, [k, val]) => { acc[k] = parseFloat((val * value / 100).toFixed(3)); return acc; }, {})])
