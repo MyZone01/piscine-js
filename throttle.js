@@ -7,7 +7,6 @@
  */
 const throttle = (func, wait) => {
     let lastCalledTime = 0;
-    let timeoutId;
 
     return (...args) => {
         const now = Date.now();
@@ -30,7 +29,6 @@ const throttle = (func, wait) => {
 const opThrottle = (func, wait, { leading = false, trailing = true }) => {
     let lastCalledTime = 0;
     let timeoutId = null;
-    let leadingCall = false;
 
     return (...args) => {
         const now = Date.now();
@@ -46,15 +44,11 @@ const opThrottle = (func, wait, { leading = false, trailing = true }) => {
             }
             func.apply(this, args);
             lastCalledTime = now;
-            leadingCall = true;
         } else if (!timeoutId && trailing !== false) {
             timeoutId = setTimeout(() => {
                 lastCalledTime = leading === false ? 0 : Date.now();;
                 timeoutId = null
-                if (!leading || leadingCall) {
-                    func.apply(this, args);
-                }
-                leadingCall = false;
+                func.apply(this, args);
             }, remaining);
         }
     };
