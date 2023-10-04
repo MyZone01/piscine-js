@@ -46,16 +46,16 @@ const opThrottle = (func, wait, { leading = false, trailing = true }) => {
             }
             func.apply(this, args);
             lastCalledTime = now;
+            leadingCall = true;
         } else if (!timeoutId && trailing !== false) {
             timeoutId = setTimeout(() => {
-                func.apply(this, args);
                 lastCalledTime = leading === false ? 0 : Date.now();;
                 timeoutId = null
+                if (!leading || leadingCall) {
+                    func.apply(this, args);
+                }
+                leadingCall = false;
             }, remaining);
-            if (leading !== false && !leadingCall) {
-                leadingCall = true;
-                func.apply(this, args);
-            }
         }
     };
 }
