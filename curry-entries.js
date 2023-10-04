@@ -43,14 +43,7 @@ const filterCurry = (callback) => (obj) => Object.fromEntries(Object.entries(obj
  * @param {object} obj - The object containing player information.
  * @return {object} - The object with average scores added for each player.
  */
-const mapAverage = (obj) => {
-    let res = {}
-    Object.entries(obj).map(([key, value]) => {
-        res[key] = Object.assign(value)
-        res[key].averageScore = (value.shootingScore + value.pilotingScore) / 2
-    })
-    return res
-}
+const mapAverage = (obj) => mapCurry(([key, value]) => [key, { averageScore: (value.shootingScore + value.pilotingScore) / 2, ...value }])(obj)
 
 /**
  * Reduces the score of force users in the given object based on the provided value.
