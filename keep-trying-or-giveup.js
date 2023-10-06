@@ -23,5 +23,8 @@ const retry = (count, callback) => (...args) => callback(...args).catch((err) =>
  */
 const timeout = (delay, callback) => (...args) => Promise.race([
     callback(args),
-    new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), delay))
-]);
+    new Promise((resolve) => setTimeout(resolve, delay))
+]).then((value) => {
+    if (!value) throw new Error('timeout')
+    else return value
+});
