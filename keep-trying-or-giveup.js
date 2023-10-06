@@ -6,25 +6,10 @@
  * @return {Promise<any>} - A promise that resolves with the result of the callback function if it succeeds within the retry limit.
  * @throws {Error} - Throws an error if the callback function fails to succeed within the retry limit.
  */
-const retry = async (count, callback) => {
-    let retries = 0;
-    let lastError = null;
-
-    const tryFunc = async (...args) => {
-        try {
-            return await callback(args);
-        } catch (error) {
-            if (retries > count) {
-                throw new Error(`Retry limit reached (${count} attempts). Last error: ${lastError}`);
-            }
-            retries++;
-            lastError = error;
-            return await tryFunc(...args);
-        }
-    }
-
-    return tryFunc();
-}
+const retry = (count, callback) => (...args) => callback(...args).catch((err) => {
+    if (count == 0) throw err
+    return retry(count - 1, callback)(...args)
+})
 
 /**
  * Executes a callback function with a specified delay, and returns a promise that resolves
