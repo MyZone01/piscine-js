@@ -23,10 +23,7 @@ const race = (promises) => {
  * @return {Promise<Array>} A promise that resolves with an array of values.
  */
 const some = (values, count) => {
-    if (count <= 0 || values.length === 0) {
-        return Promise.resolve(undefined);
-    }
-
+    if (count <= 0 || values.length === 0) return Promise.resolve([]);
     const results = [];
     let remainingCount = count;
 
@@ -38,9 +35,6 @@ const some = (values, count) => {
                     remainingCount--;
 
                     if (remainingCount === 0) {
-                        if (results[1] === undefined && results.length > 1) {
-                            results = [results[1], results[0]];
-                        }
                         resolve(results);
                     }
                 })
