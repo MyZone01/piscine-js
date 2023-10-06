@@ -38,6 +38,9 @@ const some = (values, count) => {
                     remainingCount--;
 
                     if (remainingCount === 0) {
+                        if (results[1] === undefined && results.length > 1) {
+                            results = [results[1], results[0]];
+                        }
                         resolve(results);
                     }
                 })
