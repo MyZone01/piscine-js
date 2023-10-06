@@ -16,26 +16,27 @@ const interpolation = ({ step, start, end, callback, duration }) => {
 
     const interpolatePoints = () => {
         if (currentStep <= step) {
-            callback([parseFloat((x).toFixed(1)), currentStep * timeInterval]);
+            const newPoint = [parseFloat((x).toFixed(1)), currentStep * timeInterval];
+            callback(newPoint);
             x += increment;
             currentStep++;
             setTimeout(interpolatePoints, timeInterval);
+            return newPoint
         }
     }
 
-    interpolatePoints();
+    return interpolatePoints();
 }
 
-// Example usage:
-const interpolationConfig = {
-    step: 5,       // Number of steps
-    start: 0,      // Start position
-    end: 4,       // End position (not included)
-    callback: (point) => {
-        console.log(point); // Replace this with your desired callback logic
-    },
-    duration: 50, // Total duration in milliseconds
-};
-
-interpolation(interpolationConfig);
+// let arr = []
+// // Example usage:
+// const interpolationConfig = {
+//     step: 5,       // Number of steps
+//     start: 0,      // Start position
+//     end: 4,       // End position (not included)
+//     callback: (point) => arr.push(point),
+//     duration: 50, // Total duration in milliseconds
+// };
+// interpolation(interpolationConfig)
+// console.log(arr.length);
 
