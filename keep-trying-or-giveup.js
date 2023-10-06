@@ -21,7 +21,7 @@ const retry = (count, callback) => (...args) => callback(...args).catch((err) =>
  * @return {Promise} A promise that resolves with the result of the callback function or rejects
  *                   with an error if the callback does not complete within the specified delay.
  */
-const timeout = async (delay, callback) => (...args) => Promise.race([
+const timeout = (delay, callback) => (...args) => Promise.race([
     callback(args),
     new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), delay))
 ]);
