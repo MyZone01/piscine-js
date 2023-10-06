@@ -36,3 +36,5 @@ const timeout = async (delay, callback) => Promise.race([
     callback(),
     new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), delay))
 ]);
+
+console.log("Hello World");
