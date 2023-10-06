@@ -21,10 +21,35 @@ const retry = (count, callback) => (...args) => callback(...args).catch((err) =>
  * @return {Promise} A promise that resolves with the result of the callback function or rejects
  *                   with an error if the callback does not complete within the specified delay.
  */
-const timeout = (delay, callback) => (...args) => Promise.race([
-    callback(args),
-    new Promise((resolve) => setTimeout(resolve, delay))
-]).then((value) => {
-    if (!value) throw new Error('timeout')
-    else return value
+const timeout = (delay, callback) => (...args) => new Promise((resolve, reject) => {
+    setTimeout(() => {
+        reject(new Error('timeout'))
+    }, delay)
+    callback(...args).then(resolve)
 });
+
+
+const fail = (q) =>
+    q.then(
+        (v) => Promise.reject('should fail'),
+        (e) => e.message,
+    )
+
+const ctx = {
+    r: Math.random().toString(36).slice(2),
+    failNTimes: (n) => async (...v) =>
+        --n < 0 ? v : Promise.reject(Error(`x:${v}`)),
+    delayed: (delay) => (...v) => new Promise((s) => setTimeout(s, delay, v)),
+}
+
+async function newFunction() {
+    console.log(await retry(0, ctx.failNTimes(0))(ctx.r), [ctx.r])
+    console.log(await retry(3, ctx.failNTimes(3))(ctx.r), [ctx.r])
+    console.log(await retry(10, ctx.failNTimes(5))(ctx.r, ctx.r), [ctx.r, ctx.r])
+    console.log(await fail(retry(3, ctx.failNTimes(9))(ctx.r)), `x:${ctx.r}`)
+    console.log(await timeout(2, ctx.delayed(0))(ctx.r), [ctx.r])
+    console.log(await timeout(2, ctx.delayed(0))(ctx.r, ctx.r), [ctx.r, ctx.r])
+    console.log(await fail(timeout(2, ctx.delayed(4))(ctx.r)), 'timeout')
+}
+
+newFunction()
