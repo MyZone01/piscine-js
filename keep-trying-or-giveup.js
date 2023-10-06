@@ -29,27 +29,27 @@ const timeout = (delay, callback) => (...args) => new Promise((resolve, reject) 
 });
 
 
-const fail = (q) =>
-    q.then(
-        (v) => Promise.reject('should fail'),
-        (e) => e.message,
-    )
+// const fail = (q) =>
+//     q.then(
+//         (v) => Promise.reject('should fail'),
+//         (e) => e.message,
+//     )
 
-const ctx = {
-    r: Math.random().toString(36).slice(2),
-    failNTimes: (n) => async (...v) =>
-        --n < 0 ? v : Promise.reject(Error(`x:${v}`)),
-    delayed: (delay) => (...v) => new Promise((s) => setTimeout(s, delay, v)),
-}
+// const ctx = {
+//     r: Math.random().toString(36).slice(2),
+//     failNTimes: (n) => async (...v) =>
+//         --n < 0 ? v : Promise.reject(Error(`x:${v}`)),
+//     delayed: (delay) => (...v) => new Promise((s) => setTimeout(s, delay, v)),
+// }
 
-async function newFunction() {
-    console.log(await retry(0, ctx.failNTimes(0))(ctx.r), [ctx.r])
-    console.log(await retry(3, ctx.failNTimes(3))(ctx.r), [ctx.r])
-    console.log(await retry(10, ctx.failNTimes(5))(ctx.r, ctx.r), [ctx.r, ctx.r])
-    console.log(await fail(retry(3, ctx.failNTimes(9))(ctx.r)), `x:${ctx.r}`)
-    console.log(await timeout(2, ctx.delayed(0))(ctx.r), [ctx.r])
-    console.log(await timeout(2, ctx.delayed(0))(ctx.r, ctx.r), [ctx.r, ctx.r])
-    console.log(await fail(timeout(2, ctx.delayed(4))(ctx.r)), 'timeout')
-}
+// async function newFunction() {
+//     console.log(await retry(0, ctx.failNTimes(0))(ctx.r), [ctx.r])
+//     console.log(await retry(3, ctx.failNTimes(3))(ctx.r), [ctx.r])
+//     console.log(await retry(10, ctx.failNTimes(5))(ctx.r, ctx.r), [ctx.r, ctx.r])
+//     console.log(await fail(retry(3, ctx.failNTimes(9))(ctx.r)), `x:${ctx.r}`)
+//     console.log(await timeout(2, ctx.delayed(0))(ctx.r), [ctx.r])
+//     console.log(await timeout(2, ctx.delayed(0))(ctx.r, ctx.r), [ctx.r, ctx.r])
+//     console.log(await fail(timeout(2, ctx.delayed(4))(ctx.r)), 'timeout')
+// }
 
-newFunction()
+// newFunction()
