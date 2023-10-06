@@ -10,18 +10,20 @@ const retry = async (count, callback) => {
     let retries = 0;
     let lastError = null;
 
-    return async (...args) => {
-        while (retries < count) {
-            try {
-                return await callback(args);
-            } catch (error) {
-                retries++;
-                lastError = error;
+    const tryFunc = async (...args) => {
+        try {
+            return await callback(args);
+        } catch (error) {
+            if (retries > count) {
+                throw new Error(`Retry limit reached (${count} attempts). Last error: ${lastError}`);
             }
+            retries++;
+            lastError = error;
+            return await tryFunc(...args);
         }
-
-        throw new Error(`Retry limit reached (${count} attempts). Last error: ${lastError}`);
     }
+
+    return tryFunc();
 }
 
 /**
@@ -38,5 +40,3 @@ const timeout = async (delay, callback) => Promise.race([
     callback(),
     new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), delay))
 ]);
-
-console.log("Hello World");
