@@ -10,16 +10,18 @@ const retry = async (count, callback) => {
     let retries = 0;
     let lastError = null;
 
-    while (retries < count) {
-        try {
-            return await callback();
-        } catch (error) {
-            retries++;
-            lastError = error;
+    return async (...args) => {
+        while (retries < count) {
+            try {
+                return await callback(args);
+            } catch (error) {
+                retries++;
+                lastError = error;
+            }
         }
-    }
 
-    throw new Error(`Retry limit reached (${count} attempts). Last error: ${lastError}`);
+        throw new Error(`Retry limit reached (${count} attempts). Last error: ${lastError}`);
+    }
 }
 
 /**
