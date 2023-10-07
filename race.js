@@ -1,12 +1,12 @@
 /**
- * Creates a promise that is settled as soon as any of the promises in the given iterable are fulfilled or rejected.
+ * Creates a promise that is settled as soon as any of the values in the given iterable are fulfilled or rejected.
  *
- * @param {Array<Promise>} promises - An array of promises to race.
+ * @param {Array<Promise>} values - An array of values to race.
  * @return {Promise} A promise that is fulfilled with the value of the first promise in the iterable that fulfills, or rejected with the reason of the first promise that rejects.
  */
-const race = (promises) => {
+const race = (values) => {
     return new Promise((resolve, reject) => {
-        for (const promise of promises) {
+        for (const promise of values) {
             Promise.resolve(promise)
                 .then((value) => resolve(value))
                 .catch((error) => reject(error));
@@ -23,26 +23,25 @@ const race = (promises) => {
  * @return {Promise<Array>} A promise that resolves with an array of values.
  */
 const some = (values, count) => {
-    if (count <= 0 || values.length === 0) return Promise.resolve([]);
-    const results = [];
-    let remainingCount = count;
-
-    return new Promise((resolve, reject) => {
-        for (const value of values) {
-            Promise.resolve(value)
-                .then((resolvedValue) => {
-                    results.push(resolvedValue);
-                    remainingCount--;
-
-                    if (remainingCount === 0) {
-                        resolve(results);
+    return new Promise(function (resolve, reject) {
+        if (count === 0 || values.length === 0) { resolve([]) }
+        for (let i = 0; i < values.length; i++) {
+            if (values[i] instanceof Promise) {
+                values[i].then((value) => {
+                    values[i] = value;
+                    count--;
+                    if (count === 0) {
+                        let res = values.filter((el) => !(el instanceof Promise));
+                        resolve(res);
                     }
-                })
-                .catch(() => {
-                    if (remainingCount === 0) {
-                        resolve(results);
-                    }
-                });
-        }
+                }).catch((err) => { reject(err) })
+            } else {
+                count--;
+                if (count === 0) {
+                    resolve(values.filter((el) => !(el instanceof Promise)));
+                }
+            }
+        };
+
     });
 };
